@@ -56,38 +56,31 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
-const generateId = () => {
-  return Math.floor(Math.random() * 1001);
-};
-
-const repeatedName = (name) => {
+/* const repeatedName = (name) => {
   const lowerName = name.toLowerCase();
   const person = persons.find((p) => p.name.toLowerCase() === lowerName);
   return person;
-};
+}; */
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
   if (!body.name || !body.number) {
-    return response.status(400).json({
-      error:
-        "Information missing - Please enter the name and the number of the person",
-    });
-  } else if (repeatedName(body.name)) {
-    return response.status(400).json({
-      error: "Name already in the phonebook - Name must be unique",
-    });
-  }
+    return response.status(400).json({ error: "Information missing" });
+  } /* else if (repeatedName(body.name)) {
+    return response
+      .status(400)
+      .json({ error: "Name already in the phonebook" });
+  } */
 
-  const newPerson = {
-    id: generateId(),
+  const person = new Contact({
     name: body.name,
     number: body.number,
-  };
+  });
 
-  persons = persons.concat(newPerson);
-  response.json(newPerson);
+  person.save().then((savedContact) => {
+    response.json(savedContact);
+  });
 });
 
 const PORT = process.env.PORT || 3001;

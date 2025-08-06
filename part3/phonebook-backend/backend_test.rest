@@ -1,0 +1,15 @@
+GET http://localhost:3001/api/persons/
+
+###
+
+GET http://localhost:3001/api/persons/688c311d41dca58147889f25
+
+###
+
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Homer Simpson",
+    "number": "12-345-67890"
+}
