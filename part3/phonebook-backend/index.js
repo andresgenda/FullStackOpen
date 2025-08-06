@@ -68,22 +68,12 @@ app.delete("/api/persons/:id", (request, response) => {
     });
 });
 
-/* const repeatedName = (name) => {
-  const lowerName = name.toLowerCase();
-  const person = persons.find((p) => p.name.toLowerCase() === lowerName);
-  return person;
-}; */
-
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
   if (!body.name || !body.number) {
     return response.status(400).json({ error: "Information missing" });
-  } /* else if (repeatedName(body.name)) {
-    return response
-      .status(400)
-      .json({ error: "Name already in the phonebook" });
-  } */
+  }
 
   const person = new Contact({
     name: body.name,
@@ -93,6 +83,24 @@ app.post("/api/persons", (request, response) => {
   person.save().then((savedContact) => {
     response.json(savedContact);
   });
+});
+
+app.put("/api/persons/:id", (request, response) => {
+  const { name, number } = request.body;
+  Contact.findById(request.params.id)
+    .then((person) => {
+      if (!person) {
+        return response.status(404).end();
+      }
+
+      person.name = name;
+      person.number = number;
+
+      return person.save().then((updatedPerson) => {
+        response.json(updatedPerson);
+      });
+    })
+    .catch((error) => next(error));
 });
 
 const errorHandler = (error, request, response, next) => {

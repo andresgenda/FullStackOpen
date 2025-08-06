@@ -17,3 +17,13 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3001/api/persons/6892a955430603f1f1bc2bdf
+
+###
+
+PUT http://localhost:3001/api/persons/6892d39a0721c285cea547f5
+Content-Type: application/json
+
+{
+    "name": "Ava Daniels",
+    "number": "12-345-67891"
+}
