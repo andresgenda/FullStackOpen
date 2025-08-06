@@ -13,3 +13,7 @@ Content-Type: application/json
     "name": "Homer Simpson",
     "number": "12-345-67890"
 }
+
+###
+
+DELETE http://localhost:3001/api/persons/6892a955430603f1f1bc2bdf
