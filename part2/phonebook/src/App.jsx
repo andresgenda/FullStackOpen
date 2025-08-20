@@ -54,14 +54,23 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setConfirmedMessage(`Added ${returnedPerson.name}`);
-        setTimeout(() => {
-          setConfirmedMessage(null);
-        }, 5000);
-        setErrorMessage(false);
-      });
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setConfirmedMessage(`Added ${returnedPerson.name}`);
+          setTimeout(() => {
+            setConfirmedMessage(null);
+          }, 5000);
+          setErrorMessage(false);
+        })
+        .catch((error) => {
+          setConfirmedMessage(`${error.response.data.error}`);
+          setTimeout(() => {
+            setConfirmedMessage(null);
+          }, 5000);
+          setErrorMessage(true);
+        });
     }
     setNewName("");
     setNewNumber("");
