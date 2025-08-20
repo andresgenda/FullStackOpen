@@ -21,7 +21,17 @@ const contactSchema = new mongoose.Schema({
     minLength: 3,
     required: true,
   },
-  number: String,
+  number: {
+    type: String,
+    minLength: 8,
+    validate: {
+      validator: function (v) {
+        return /^\d{2,3}-\d+$/.test(v);
+      },
+      message: `Phone does not follow the correct number form`,
+    },
+    required: true,
+  },
 });
 
 contactSchema.set("toJSON", {
