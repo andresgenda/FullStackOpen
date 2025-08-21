@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static("dist"));
 
-app.get("/api/persons", (request, response) => {
+app.get("/api/persons", (request, response, next) => {
   Contact.find({})
     .then((persons) => {
       response.json(persons);
@@ -16,7 +16,7 @@ app.get("/api/persons", (request, response) => {
     .catch((error) => next(error));
 });
 
-app.get("/info", (request, response) => {
+app.get("/info", (request, response, next) => {
   Contact.find({})
     .then((persons) => {
       response.send(`
@@ -39,9 +39,9 @@ app.get("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Contact.findByIdAndDelete(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => {
@@ -69,7 +69,7 @@ app.post("/api/persons", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.put("/api/persons/:id", (request, response) => {
+app.put("/api/persons/:id", (request, response, next) => {
   const { name, number } = request.body;
   Contact.findById(request.params.id)
     .then((person) => {
