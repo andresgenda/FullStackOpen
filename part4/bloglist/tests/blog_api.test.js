@@ -33,6 +33,27 @@ describe("api requests", () => {
 
     assert.strictEqual("id" in response.body[0], true);
   });
+
+  test.only("a new blog can be added", async () => {
+    const newBlog = {
+      title: "My Trip to Japan",
+      author: "Andres Genda",
+      url: "https://mywebpage.com/triptojapan",
+      likes: 20000,
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAfter = await testHelper.blogsInDb();
+    assert.strictEqual(testHelper.initialBlogs.length + 1, blogsAfter.length);
+
+    const blogTitles = blogsAfter.map((blog) => blog.title);
+    assert(blogTitles.includes("My Trip to Japan"));
+  });
 });
 
 after(async () => {
