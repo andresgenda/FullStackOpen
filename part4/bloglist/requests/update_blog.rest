@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/68d215ce6c11082a80b7bb3c
+Content-Type: application/json
+
+{
+    "title": "My Trip to Seoul",
+    "author": "Andres Genda",
+    "url": "https://mywebpage.com/triptoseoul",
+    "likes": 9000
+}

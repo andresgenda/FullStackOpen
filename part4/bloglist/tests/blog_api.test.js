@@ -55,7 +55,7 @@ describe("api requests", () => {
     assert(blogTitles.includes("My Trip to Japan"));
   });
 
-  test.only("an existing blog can be deleted", async () => {
+  test("an existing blog can be deleted", async () => {
     const blogsAtStart = await testHelper.blogsInDb();
     const blogToDelete = blogsAtStart[0];
 
@@ -66,6 +66,23 @@ describe("api requests", () => {
 
     assert(!blogTitles.includes(blogToDelete.title));
     assert.strictEqual(blogsAtEnd.length, testHelper.initialBlogs.length - 1);
+  });
+
+  test("an existing blog can be updated", async () => {
+    const blogsAtStart = await testHelper.blogsInDb();
+    const blogToModify = blogsAtStart[0];
+
+    blogToModify.likes = 8000;
+
+    await api
+      .put(`/api/blogs/${blogToModify.id}`)
+      .send(blogToModify)
+      .expect(203);
+
+    const blogsAtEnd = await testHelper.blogsInDb();
+
+    assert.strictEqual(blogsAtEnd[0].likes, 8000);
+    assert.strictEqual(blogsAtEnd[0].title, blogsAtStart[0].title);
   });
 });
 
