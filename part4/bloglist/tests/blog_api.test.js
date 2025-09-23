@@ -19,7 +19,7 @@ beforeEach(async () => {
 });
 
 describe("api requests", () => {
-  test.only("blogs are returned as json", async () => {
+  test("blogs are returned as json", async () => {
     const response = await api
       .get("/api/blogs")
       .expect(200)
@@ -28,13 +28,13 @@ describe("api requests", () => {
     assert.strictEqual(response.body.length, testHelper.initialBlogs.length);
   });
 
-  test.only("correct blog post id name", async () => {
+  test("correct blog post id name", async () => {
     const response = await api.get("/api/blogs");
 
     assert.strictEqual("id" in response.body[0], true);
   });
 
-  test.only("a new blog can be added", async () => {
+  test("a new blog can be added", async () => {
     const newBlog = {
       title: "My Trip to Japan",
       author: "Andres Genda",
@@ -53,6 +53,19 @@ describe("api requests", () => {
 
     const blogTitles = blogsAfter.map((blog) => blog.title);
     assert(blogTitles.includes("My Trip to Japan"));
+  });
+
+  test.only("an existing blog can be deleted", async () => {
+    const blogsAtStart = await testHelper.blogsInDb();
+    const blogToDelete = blogsAtStart[0];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+    const blogsAtEnd = await testHelper.blogsInDb();
+    const blogTitles = blogsAtEnd.map((blog) => blog.title);
+
+    assert(!blogTitles.includes(blogToDelete.title));
+    assert.strictEqual(blogsAtEnd.length, testHelper.initialBlogs.length - 1);
   });
 });
 
