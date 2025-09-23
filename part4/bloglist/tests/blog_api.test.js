@@ -27,6 +27,12 @@ describe("api requests", () => {
 
     assert.strictEqual(response.body.length, testHelper.initialBlogs.length);
   });
+
+  test.only("correct blog post id name", async () => {
+    const response = await api.get("/api/blogs");
+
+    assert.strictEqual("id" in response.body[0], true);
+  });
 });
 
 after(async () => {
