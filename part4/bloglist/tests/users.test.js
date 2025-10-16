@@ -9,7 +9,7 @@ const app = require("../app");
 
 const api = supertest(app);
 
-describe("when there is initially one user in db", () => {
+describe("Tests for creating Users", () => {
   beforeEach(async () => {
     await User.deleteMany({});
 
@@ -19,7 +19,7 @@ describe("when there is initially one user in db", () => {
     await user.save();
   });
 
-  test("creation succeeds with a fresh username", async () => {
+  test("can create a unique new user", async () => {
     const usersAtStart = await testHelper.usersInDb();
 
     const newUser = {
