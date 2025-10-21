@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "My Trip to Seoul",
-    "author": "Andres Genda",
-    "url": "https://mywebpage.com/triptoseoul",
-    "likes": 50000
+    "title": "Night Out with Friends",
+    "author": "Belly Conklin",
+    "url": "https://mywebpage.com/nightoutwithfriends",
+    "likes": 2000
 }
